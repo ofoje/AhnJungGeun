@@ -1,0 +1,1672 @@
+/* ==========================================================================
+   AhnJungGeun — 공통 스타일 (베이스)
+   Desktop First · 기준 해상도 1920 × 1080
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Variables
+   -------------------------------------------------------------------------- */
+:root {
+  /* Breakpoints (reference) */
+  --bp-desktop-xl: 1920px;
+  --bp-desktop: 1440px;
+  --bp-tablet: 1024px;
+  --bp-mobile: 768px;
+
+  /* Layout */
+  --design-width: 1920;
+  --design-height: 1080;
+  --aspect-ratio: 16 / 9;
+
+  /* Transition */
+  --transition-fast: 200ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 300ms ease;
+
+  /* Colors */
+  --color-primary: #1a1a1a;
+  --color-secondary: #666666;
+  --color-accent: #2a3292;
+  --color-accent-hover: #343da8;
+  --color-accent-active: #1f2678;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-dim: rgba(0, 0, 0, 0.6);
+  --color-placeholder: #b0b0b0;
+  --color-input-border: #e0e0e0;
+  --color-input-focus: #2a3292;
+
+  /* Typography */
+  --font-family-base: "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-base: clamp(14px, 0.833vw, 16px);
+  --line-height-base: 1.5;
+
+  /* Spacing */
+  --spacing-xs: clamp(4px, 0.417vw, 8px);
+  --spacing-sm: clamp(8px, 0.833vw, 16px);
+  --spacing-md: clamp(16px, 1.667vw, 32px);
+  --spacing-lg: clamp(24px, 2.5vw, 48px);
+  --spacing-xl: clamp(32px, 3.333vw, 64px);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Shadow */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+
+  /* Z-index */
+  --z-overlay: 100;
+  --z-modal: 200;
+  --z-tooltip: 300;
+}
+
+/* --------------------------------------------------------------------------
+   Reset & Base
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-primary);
+  background-color: var(--color-white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* --------------------------------------------------------------------------
+   Layout — 16:9 비율 유지
+   -------------------------------------------------------------------------- */
+.page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-container {
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: var(--aspect-ratio);
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Button — 공통 재사용
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    background-color var(--transition-base);
+}
+
+.btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn--primary {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.btn--primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-md);
+}
+
+/* --------------------------------------------------------------------------
+   Modal / Popup — 공통 재사용
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background-color: var(--color-dim);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.modal.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal__content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  transform: translateY(20px) scale(0.95);
+  transition: transform var(--transition-base);
+}
+
+.modal.is-active .modal__content {
+  transform: translateY(0) scale(1);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+  color: #666666;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal__close:hover {
+  color: #333333;
+}
+
+/* body scroll lock when modal open */
+body.is-modal-open {
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Utility
+   -------------------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-slow) ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — Desktop First
+   -------------------------------------------------------------------------- */
+@media (max-width: 1440px) {
+  .page-container {
+    max-width: 1440px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .page-container {
+    max-width: 1024px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    aspect-ratio: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+/* ==========================================================================
+   Login Page — 1920 × 1080 기준 (Figma Pixel Perfect)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Login Layout — 화면 전체 1920×1080
+   -------------------------------------------------------------------------- */
+.login-page .page-wrapper {
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #e8ecf4;
+}
+
+.login-page .page-container.login {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  aspect-ratio: unset;
+  overflow: hidden;
+  /* bg_login.png 인물 우측 끝 기준 (1920px ≈ 50%) */
+  --login-zone-start: 50%;
+}
+
+/* --------------------------------------------------------------------------
+   Login Background — 화면 전체 채움
+   -------------------------------------------------------------------------- */
+.login__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.login__bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* --------------------------------------------------------------------------
+   Login Page — Pretendard
+   -------------------------------------------------------------------------- */
+.login-page {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+
+/* --------------------------------------------------------------------------
+   Login Content — 인물 끝 ~ 화면 오른쪽 중앙
+   -------------------------------------------------------------------------- */
+.login__content {
+  position: absolute;
+  top: 22%;
+  left: calc((var(--login-zone-start) + 100%) / 2);
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(420px, 30vw, 560px);
+  text-align: center;
+}
+
+.login__header {
+  width: 100%;
+  margin: 0;
+}
+
+.login__title {
+  width: 100%;
+  margin: 0;
+  line-height: 0;
+}
+
+.login__title-image {
+  display: block;
+  width: clamp(420px, 29vw, 560px);
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Login Form
+   -------------------------------------------------------------------------- */
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.2vw, 16px);
+  width: 100%;
+  margin-top: 130px;
+}
+
+.login-page .form-field {
+  width: 100%;
+}
+
+.login-page .form-input {
+  width: 100%;
+  height: clamp(48px, 5.4vh, 58px);
+  padding: 0 clamp(16px, 1.25vw, 24px);
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(14px, 0.94vw, 18px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-page .form-input::placeholder {
+  color: #aaaaaa;
+}
+
+.login-page .form-input:hover {
+  background-color: #fafafa;
+  border-color: #d0d0d0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-page .form-input:focus {
+  outline: none;
+  border-color: #343bb0;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 3px rgba(52, 59, 176, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   Login Button
+   -------------------------------------------------------------------------- */
+.login-page .btn--login {
+  width: 100%;
+  height: clamp(60px, 6.7vh, 72px);
+  margin-top: clamp(4px, 0.6vh, 8px);
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(16px, 1.04vw, 20px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.4px;
+  color: var(--color-white);
+  background-color: #2a3292;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(42, 50, 146, 0.3);
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.login-page .btn--login:hover:not(:disabled) {
+  background-color: #343da8;
+  box-shadow: 0 5px 12px rgba(42, 50, 146, 0.32);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.login-page .btn--login:active:not(:disabled) {
+  background-color: #1f2678;
+  box-shadow: 0 2px 6px rgba(42, 50, 146, 0.25);
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Login Logo — 확인 버튼 아래, 콘텐츠 중앙
+   -------------------------------------------------------------------------- */
+.login__logo {
+  display: block;
+  width: 100%;
+  margin: clamp(70px, 8vh, 90px) auto 0;
+  line-height: 0;
+}
+
+.login__logo-image {
+  display: block;
+  width: clamp(190px, 13vw, 250px);
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Login Responsive — 1024px 이하 보조 조정
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .login-page .page-container.login {
+    --login-zone-start: 48%;
+  }
+
+  .login__content {
+    top: 18%;
+    width: clamp(320px, 38vw, 420px);
+  }
+}
+
+/* ==========================================================================
+   Intro Page — 1920 × 1080 기준 (Figma)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Intro Layout
+   -------------------------------------------------------------------------- */
+.intro-page .page-wrapper {
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #e8ecf4;
+}
+
+.intro-page {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.intro-page .page-container.intro {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  aspect-ratio: unset;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Intro Background
+   -------------------------------------------------------------------------- */
+.intro__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("../images/intro/bg_intro.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* --------------------------------------------------------------------------
+   Intro Branding — 좌상단 title.svg
+   -------------------------------------------------------------------------- */
+.intro__branding {
+  position: absolute;
+  top: clamp(32px, 5.5vh, 52px);
+  left: clamp(40px, 3.8vw, 56px);
+  z-index: 2;
+  line-height: 0;
+}
+
+.intro__title-image {
+  display: block;
+  width: clamp(300px, 30.7vw, 420px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Intro Logo — 좌하단
+   -------------------------------------------------------------------------- */
+.intro__logo {
+  position: absolute;
+  left: clamp(40px, 3.8vw, 56px);
+  bottom: clamp(32px, 5vh, 48px);
+  z-index: 2;
+  line-height: 0;
+}
+
+.intro__logo-image {
+  display: block;
+  width: clamp(200px, 20vw, 280px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Intro Main — 오른쪽 정렬, 넓은 콘텐츠 영역
+   -------------------------------------------------------------------------- */
+.intro__main {
+  position: absolute;
+  top: 50%;
+  right: clamp(48px, 4.8vw, 110px);
+  left: auto;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: clamp(900px, 56vw, 1140px);
+  max-width: calc(100vw - clamp(64px, 6.5vw, 140px));
+}
+
+.intro__heading {
+  margin: 0 0 clamp(26px, 3vh, 40px);
+  font-size: clamp(46px, 3.5vw, 66px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #293079;
+}
+
+.intro__body {
+  margin: 0;
+  font-size: clamp(24px, 1.6vw, 31px);
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: -0.02em;
+  color: #333333;
+  word-break: keep-all;
+}
+
+.intro__divider {
+  width: 100%;
+  margin: clamp(28px, 3.2vh, 40px) 0 clamp(24px, 2.8vh, 32px);
+  border: none;
+  border-top: 1px solid #d0d5e0;
+}
+
+.intro__learn-title {
+  margin: 0 0 clamp(26px, 2.4vh, 35px);
+  font-size: clamp(21px, 1.43vw, 29px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: #333333;
+}
+
+/* --------------------------------------------------------------------------
+   Intro Cards
+   -------------------------------------------------------------------------- */
+.intro__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 1vw, 16px);
+  margin: 0 0 clamp(30px, 3.5vh, 44px);
+  padding: 0;
+  list-style: none;
+}
+
+.intro-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: clamp(250px, 15.5vw, 320px);
+  padding: clamp(31px, 2.2vw, 44px);
+  background-color: var(--color-white);
+  border-radius: clamp(15px, 1.1vw, 20px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.intro-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+}
+
+.intro-card__num {
+  font-size: clamp(18px, 1.25vw, 24px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #5d65b0;
+}
+
+.intro-card__text {
+  margin: clamp(18px, 1.5vh, 24px) 0 0;
+  padding-right: 0;
+  font-size: clamp(26px, 1.85vw, 36px);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.03em;
+  color: var(--color-black);
+  text-align: left;
+  word-break: keep-all;
+}
+
+.intro-card__icon {
+  align-self: flex-end;
+  margin-top: auto;
+  width: clamp(62px, 4.2vw, 84px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Intro Start Button
+   -------------------------------------------------------------------------- */
+.intro-page .btn--start {
+  display: block;
+  width: clamp(462px, 30.8vw, 616px);
+  height: clamp(70px, 5.5vw, 90px);
+  margin: 20px auto 0;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(26px, 1.87vw, 35px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  background-color: #293079;
+  border-radius: clamp(12px, 0.8vw, 16px);
+  box-shadow: 0 4px 12px rgba(41, 48, 121, 0.28);
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.intro-page .btn--start:hover:not(:disabled) {
+  background-color: #343da8;
+  box-shadow: 0 6px 16px rgba(41, 48, 121, 0.34);
+  transform: translateY(-2px);
+}
+
+.intro-page .btn--start:active:not(:disabled) {
+  background-color: #1f2678;
+  box-shadow: 0 2px 8px rgba(41, 48, 121, 0.22);
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Intro Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 1600px) {
+  .intro__main {
+    right: clamp(40px, 4.5vw, 90px);
+    width: clamp(850px, 54.5vw, 1040px);
+  }
+}
+
+@media (max-width: 1440px) {
+  .intro__main {
+    right: clamp(38px, 4.2vw, 82px);
+    width: clamp(820px, 55.5vw, 1000px);
+  }
+}
+
+@media (max-width: 1366px) {
+  .intro__main {
+    right: clamp(32px, 3.8vw, 74px);
+    width: clamp(790px, 56vw, 960px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .intro__main {
+    right: clamp(22px, 2.8vw, 48px);
+    width: clamp(640px, 58vw, 780px);
+  }
+
+  .intro__body br {
+    display: none;
+  }
+
+  .intro-card {
+    min-height: clamp(210px, 18.5vw, 260px);
+    padding: clamp(24px, 2.4vw, 35px);
+  }
+}
+
+/* ==========================================================================
+   Life Page — 1920 × 1080 기준 (Figma)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Life Layout
+   -------------------------------------------------------------------------- */
+.life-page .page-wrapper {
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: block;
+  background-color: #e8ecf4;
+}
+
+.life-page {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.life-page .page-container.life {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  aspect-ratio: unset;
+  overflow: hidden;
+  --life-card-left: clamp(420px, 22.5vw, 490px);
+  --life-card-right: clamp(55px, 3.65vw, 70px);
+}
+
+/* --------------------------------------------------------------------------
+   Life Background
+   -------------------------------------------------------------------------- */
+.life__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("../images/life/bg_life.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* --------------------------------------------------------------------------
+   Life Branding — 좌상단 (intro와 동일)
+   -------------------------------------------------------------------------- */
+.life__branding {
+  position: absolute;
+  top: clamp(32px, 5.5vh, 52px);
+  left: clamp(40px, 3.8vw, 56px);
+  z-index: 3;
+  line-height: 0;
+}
+
+.life__title-image {
+  display: block;
+  width: clamp(300px, 30.7vw, 420px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Life Logo — 좌하단 (intro와 동일)
+   -------------------------------------------------------------------------- */
+.life__logo {
+  position: absolute;
+  left: clamp(40px, 3.8vw, 56px);
+  bottom: clamp(32px, 5vh, 48px);
+  z-index: 3;
+  line-height: 0;
+}
+
+.life__logo-image {
+  display: block;
+  width: clamp(200px, 20vw, 280px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Life Tabs — 상단 우측
+   -------------------------------------------------------------------------- */
+.life__tabs {
+  position: absolute;
+  top: clamp(28px, 3.7vh, 40px);
+  right: clamp(40px, 3.65vw, 70px);
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: clamp(10px, 0.6vw, 12px);
+}
+
+.life__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(48px, 5.9vh, 64px);
+  padding: 0 clamp(20px, 1.67vw, 32px);
+  font-size: clamp(16px, 1.25vw, 24px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #a8a8a8;
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e4e6ef;
+  border-radius: 999px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.life__tab:hover {
+  color: #666666;
+  background-color: #ffffff;
+  border-color: #d0d5e0;
+}
+
+.life__tab.is-active {
+  color: var(--color-white);
+  background-color: #293079;
+  border-color: #293079;
+}
+
+.life__tab.is-active:hover {
+  color: var(--color-white);
+  background-color: #343da8;
+  border-color: #343da8;
+}
+
+/* --------------------------------------------------------------------------
+   Life Sidebar — 좌측 목차
+   -------------------------------------------------------------------------- */
+.life__sidebar {
+  position: absolute;
+  top: clamp(140px, 18.5vh, 200px);
+  left: clamp(36px, 3.1vw, 60px);
+  z-index: 2;
+  width: clamp(300px, 19.8vw, 380px);
+}
+
+.life__toc {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.life__toc-section {
+  margin-bottom: clamp(20px, 2.2vh, 28px);
+}
+
+.life__toc-heading {
+  display: block;
+  font-size: clamp(24px, 1.56vw, 32px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: #9aa0b8;
+  white-space: nowrap;
+}
+
+.life__toc-section.is-active .life__toc-heading {
+  font-weight: 700;
+  color: #293079;
+}
+
+.life__toc-heading-link {
+  display: block;
+  font-size: clamp(24px, 1.56vw, 32px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: #9aa0b8;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.life__toc-section.is-active .life__toc-heading-link {
+  font-weight: 700;
+  color: #293079;
+}
+
+.life__toc-heading-link.is-active {
+  font-weight: 700;
+  color: #293079;
+}
+
+.life__toc-heading-link:hover {
+  color: #5d65b0;
+}
+
+.life__toc-sub {
+  display: none;
+  margin: clamp(10px, 1.1vh, 14px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.life__toc-section.is-active .life__toc-sub {
+  display: block;
+}
+
+.life__toc-link {
+  display: block;
+  padding: clamp(4px, 0.45vh, 6px) 0;
+  font-size: clamp(20px, 1.25vw, 26px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: #7a8199;
+  transition: color 0.2s ease;
+}
+
+.life__toc-link.is-active::before {
+  content: "• ";
+}
+
+.life__toc-link.is-active {
+  font-weight: 700;
+  color: #293079;
+}
+
+.life__toc-link:hover {
+  color: #5d65b0;
+}
+
+.life__toc-link--disabled {
+  color: #949bb2;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Life Card — 메인 콘텐츠
+   -------------------------------------------------------------------------- */
+.life__card {
+  position: absolute;
+  top: clamp(100px, 13.4vh, 145px);
+  left: var(--life-card-left);
+  right: var(--life-card-right);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  min-height: clamp(790px, 85vh, 1030px);
+  background-color: var(--color-white);
+  border-radius: clamp(14px, 1.04vw, 20px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.life__illustration {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: clamp(14px, 1.04vw, 20px) clamp(14px, 1.04vw, 20px) 0 0;
+}
+
+.life__illustration-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(380px, 48vh, 560px);
+  margin: 0;
+  padding: 0;
+  border: none;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.life__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(380px, 40vh, 480px);
+  padding: clamp(52px, 6vh, 72px) clamp(76px, calc(3.75vw + 20px), 92px) clamp(64px, 7vh, 88px);
+}
+
+.life__chapter {
+  margin: 0 0 clamp(14px, 1.5vh, 18px);
+  font-size: clamp(20px, 1.15vw, 24px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #293079;
+}
+
+.life__heading {
+  margin: 0 0 clamp(28px, 3vh, 36px);
+  font-size: clamp(34px, 2.4vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #111111;
+}
+
+.life__divider {
+  width: 100%;
+  margin: 0 0 clamp(28px, 3vh, 36px);
+  border: none;
+  border-top: 1px solid #e0e3ec;
+}
+
+.life__body {
+  margin: 0;
+  font-size: clamp(22px, 1.56vw, 32px);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
+  color: #333333;
+  word-break: keep-all;
+}
+
+.narration-line {
+  display: block;
+  color: #888888;
+  font-weight: 400;
+  transition:
+    color 0.3s ease,
+    font-weight 0.3s ease;
+}
+
+.narration-line.is-active {
+  color: #111111;
+  font-weight: 700;
+}
+
+.narration-line.is-active .narration-link {
+  color: #111111;
+  font-weight: 700;
+}
+
+.narration-link {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.narration-link:hover {
+  color: #293079;
+}
+
+.narration-link--keyword {
+  color: #3b43b8;
+  font-weight: 700;
+}
+
+.narration-link--keyword:hover {
+  color: #293079;
+}
+
+.narration-line.is-active .narration-link--keyword {
+  color: #3b43b8;
+}
+
+.narration-link--keyword-peace {
+  color: #3847c8;
+  font-weight: 700;
+}
+
+.narration-link--keyword-peace:hover {
+  color: #293079;
+}
+
+.narration-line.is-active .narration-link--keyword-peace {
+  color: #3847c8;
+}
+
+.life__nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.life__nav-btn:disabled:hover {
+  opacity: 0.35;
+}
+
+/* --------------------------------------------------------------------------
+   Life Nav — 하단 중앙 (로고 기준선 정렬)
+   -------------------------------------------------------------------------- */
+.life__nav {
+  position: absolute;
+  left: var(--life-card-left);
+  right: var(--life-card-right);
+  bottom: clamp(32px, 5vh, 48px);
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(14px, 0.94vw, 18px);
+  pointer-events: none;
+}
+
+.life__nav-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+  border-radius: 50%;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+.life__nav-btn:hover {
+  transform: none;
+  opacity: 0.82;
+}
+
+.life__nav-btn:active {
+  transform: none;
+  opacity: 0.7;
+}
+
+.life__nav-btn img {
+  display: block;
+  width: clamp(48px, 2.9vw, 56px);
+  height: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Life Sound — 우측 하단
+   -------------------------------------------------------------------------- */
+.life__sound {
+  position: absolute;
+  right: clamp(40px, 3.65vw, 70px);
+  bottom: clamp(32px, 5vh, 48px);
+  z-index: 3;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+  border-radius: 50%;
+  transition: opacity 0.2s ease;
+}
+
+.life__sound:hover {
+  transform: none;
+  opacity: 0.82;
+}
+
+.life__sound:active {
+  transform: none;
+  opacity: 0.7;
+}
+
+.life__sound-icon {
+  display: block;
+  width: clamp(48px, 3vw, 58px);
+  height: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Life Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 1600px) {
+  .life-page .page-container.life {
+    --life-card-left: clamp(380px, 21vw, 450px);
+    --life-card-right: clamp(48px, 3.5vw, 64px);
+  }
+
+  .life__card {
+    min-height: clamp(720px, 82vh, 920px);
+  }
+
+  .life__illustration-image {
+    height: clamp(340px, 45vh, 500px);
+  }
+}
+
+@media (max-width: 1440px) {
+  .life-page .page-container.life {
+    max-width: none;
+    width: 100vw;
+    --life-card-left: clamp(360px, 20vw, 420px);
+    --life-card-right: clamp(44px, 3.2vw, 60px);
+  }
+
+  .life__card {
+    min-height: clamp(700px, 80vh, 880px);
+  }
+
+  .life__illustration-image {
+    height: clamp(320px, 43vh, 470px);
+  }
+}
+
+@media (max-width: 1366px) {
+  .life-page .page-container.life {
+    --life-card-left: clamp(340px, 19vw, 400px);
+    --life-card-right: clamp(40px, 3vw, 56px);
+  }
+
+  .life__card {
+    min-height: clamp(680px, 79vh, 840px);
+  }
+
+  .life__illustration-image {
+    height: clamp(300px, 41vh, 440px);
+  }
+}
+
+@media (max-width: 1280px) {
+  .life__tab {
+    height: clamp(44px, 5.5vh, 56px);
+    font-size: clamp(14px, 1.15vw, 20px);
+    padding: 0 clamp(16px, 1.4vw, 24px);
+  }
+
+  .life__toc-heading {
+    font-size: clamp(20px, 1.4vw, 26px);
+  }
+
+  .life__toc-heading-link {
+    font-size: clamp(20px, 1.4vw, 26px);
+  }
+
+  .life__toc-link {
+    font-size: clamp(16px, 1.1vw, 20px);
+  }
+
+  .life-page .page-container.life {
+    --life-card-left: clamp(320px, 18vw, 360px);
+    --life-card-right: clamp(36px, 2.8vw, 48px);
+  }
+
+  .life__card {
+    min-height: clamp(640px, 76vh, 800px);
+  }
+
+  .life__content {
+    min-height: clamp(300px, 32vh, 360px);
+    padding: clamp(40px, 5vh, 56px) clamp(72px, calc(3.5vw + 20px), 88px) clamp(48px, 6vh, 64px);
+  }
+
+  .life__illustration-image {
+    height: clamp(280px, 40vh, 420px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .life__sidebar {
+    top: clamp(110px, 14vh, 150px);
+    width: clamp(260px, 26vw, 320px);
+  }
+
+  .life__toc-heading {
+    font-size: clamp(18px, 1.6vw, 22px);
+    white-space: normal;
+  }
+
+  .life__toc-heading-link {
+    font-size: clamp(18px, 1.6vw, 22px);
+    white-space: normal;
+  }
+
+  .life__toc-link {
+    font-size: clamp(16px, 1.4vw, 20px);
+  }
+
+  .life-page .page-container.life {
+    --life-card-left: clamp(300px, 20vw, 320px);
+    --life-card-right: clamp(28px, 2.5vw, 40px);
+  }
+
+  .life__card {
+    min-height: clamp(600px, 74vh, 740px);
+  }
+
+  .life__content {
+    min-height: clamp(260px, 28vh, 320px);
+    padding: clamp(32px, 4.5vh, 48px) clamp(64px, calc(3.2vw + 20px), 76px) clamp(40px, 5.5vh, 56px);
+  }
+
+  .life__illustration-image {
+    height: clamp(240px, 36vh, 360px);
+  }
+
+  .life__heading {
+    font-size: clamp(28px, 2.6vw, 36px);
+  }
+
+  .life__body {
+    font-size: clamp(18px, 1.6vw, 24px);
+  }
+
+  .life__body br {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Life Popup — 재사용 모달
+   -------------------------------------------------------------------------- */
+.life-popup__card {
+  position: relative;
+  width: 1200px;
+  max-width: 90vw;
+  padding: clamp(28px, 2vw, 32px);
+  background-color: var(--color-white);
+  border-radius: clamp(16px, 1.2vw, 20px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.life-popup__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+  color: #666666;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.life-popup__close:hover {
+  color: #333333;
+}
+
+.life-popup__image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: clamp(480px, 52vh, 720px);
+  padding-bottom: 16px;
+}
+
+.life-popup__image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 720px;
+  object-fit: contain;
+}
+
+.life-popup__title {
+  margin: 8px 0 clamp(8px, 1vh, 10px);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #111111;
+  text-align: center;
+}
+
+.life-popup__desc {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  color: #555555;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Life Popup — 심화학습 variant
+   -------------------------------------------------------------------------- */
+.life-popup__card--deep {
+  width: 1500px;
+  max-width: 90vw;
+  padding: clamp(36px, 3vw, 48px) clamp(40px, 3.5vw, 56px) clamp(40px, 3vw, 52px);
+  border: 3px solid #6b6fb4;
+  border-radius: 24px;
+}
+
+.life-popup__badge {
+  display: inline-block;
+  margin: 0 auto clamp(14px, 1.6vh, 18px);
+  padding: 8px 18px;
+  font-size: clamp(18px, 1.2vw, 20px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  background-color: #3b43b8;
+  border-radius: 999px;
+}
+
+.life-popup__text-block {
+  text-align: center;
+}
+
+.life-popup__card--deep .life-popup__badge {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.life-popup__close--deep {
+  top: 20px;
+  right: 20px;
+}
+
+.life-popup__image-wrap--deep {
+  display: flex;
+  justify-content: center;
+  min-height: auto;
+  padding-bottom: clamp(20px, 2.2vh, 28px);
+}
+
+.life-popup__image-frame {
+  display: inline-block;
+  line-height: 0;
+  border: 2px solid #6b6fb4;
+  border-radius: clamp(8px, 0.6vw, 12px);
+  overflow: hidden;
+}
+
+.life-popup__image--deep {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(70vw, 900px);
+  max-height: 620px;
+  object-fit: contain;
+}
+
+.life-popup__title--deep {
+  margin: 0 0 clamp(12px, 1.4vh, 16px);
+  font-size: clamp(42px, 2.8vw, 48px);
+  font-weight: 700;
+  color: #3b43b8;
+  text-align: center;
+}
+
+.life-popup__desc--deep {
+  font-size: clamp(28px, 1.9vw, 32px);
+  line-height: 1.45;
+  color: #333333;
+  text-align: center;
+}
+
+.life-popup__desc--deep p {
+  margin: 0 0 6px;
+}
+
+.life-popup__desc--deep p:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Life Popup — 지도 심화학습 variant
+   -------------------------------------------------------------------------- */
+.life-popup__card--map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: clamp(640px, 78vh, 860px);
+}
+
+.map-stage {
+  width: 96%;
+  height: 70%;
+  min-height: clamp(380px, 52vh, 560px);
+  margin: 0 auto clamp(20px, 2.2vh, 28px);
+  padding: 30px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background-color: #e8f4fc;
+  border-radius: clamp(8px, 0.6vw, 12px);
+}
+
+.map-stage__viewport {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #e8f4fc;
+}
+
+.map-image,
+.map-stage__image {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.life-popup__card--map .life-popup__text-block {
+  width: 100%;
+}
+
+.life-popup__card--map .life-popup__title--deep {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Life Popup — 역사 심화학습 variant
+   -------------------------------------------------------------------------- */
+.life-popup__card--history {
+  width: clamp(1680px, 91vw, 1760px);
+  max-width: 94vw;
+  height: clamp(900px, 90vh, 940px);
+  max-height: 92vh;
+  padding: 0;
+  border: 3px solid #6b6fb4;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.history-popup__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.history-popup__overlay {
+  position: absolute;
+  top: clamp(36px, 2.3vw, 44px);
+  left: clamp(36px, 2.3vw, 44px);
+  z-index: 2;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.history-popup__badge {
+  display: inline-block;
+  margin: 0 0 clamp(12px, 1.4vh, 16px);
+  padding: 8px 18px;
+  font-size: clamp(18px, 1.2vw, 20px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  background-color: #3b43b8;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.history-popup__title {
+  margin: 0;
+  padding: 0;
+  font-size: clamp(42px, 2.8vw, 48px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #3039a3;
+  text-align: left;
+  align-self: flex-start;
+}
+
+.life-popup__card--history .life-popup__close--deep {
+  z-index: 3;
+}
