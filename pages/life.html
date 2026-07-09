@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>안중근 — 일생 알아보기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="life-page">
+  <div class="page-wrapper">
+    <main class="page-container life">
+
+      <!-- 배경 -->
+      <div class="life__bg" aria-hidden="true"></div>
+
+      <!-- 좌상단 타이틀 -->
+      <header class="life__branding">
+        <img
+          src="../images/intro/title.svg"
+          alt="안중근 — 독립과 평화를 위해 싸운 대한민국인"
+          class="life__title-image"
+          width="362"
+          height="60"
+        >
+      </header>
+
+      <!-- 상단 탭 -->
+      <nav class="life__tabs" aria-label="학습 메뉴">
+        <a href="life.html" class="life__tab is-active" aria-current="page">안중근 의사의 일생 알아보기</a>
+        <a href="#" class="life__tab">나만의 전시관 만들기</a>
+        <a href="#" class="life__tab">안중근 의사에게 감사 전하기</a>
+      </nav>
+
+      <!-- 좌측 목차 -->
+      <aside class="life__sidebar" aria-label="목차">
+        <ol class="life__toc">
+          <li class="life__toc-section is-active" data-toc-section="1">
+            <a href="#" class="life__toc-heading-link" data-life-index="0">1. 안중근의 어린시절</a>
+            <ul class="life__toc-sub">
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="0">안응칠, 태어나다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="1">청계동에서 어린시절을 보내다</a>
+              </li>
+            </ul>
+          </li>
+          <li class="life__toc-section" data-toc-section="2">
+            <a href="#" class="life__toc-heading-link" data-life-index="2">2. 청년 안중근</a>
+            <ul class="life__toc-sub">
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="2">도마 안중근, 구국운동에 뛰어들다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="3">교육활동에 힘쓰다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="4">의병을 이끌다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="5">단지동맹을 맺다</a>
+              </li>
+            </ul>
+          </li>
+          <li class="life__toc-section" data-toc-section="3">
+            <a href="#" class="life__toc-heading-link" data-life-index="6">3. 하얼빈 의거</a>
+            <ul class="life__toc-sub">
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="6">의거 계획을 세우다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="8">이토 히로부미를 처단하다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="10">한국의 독립 의지를 알리다</a>
+              </li>
+            </ul>
+          </li>
+          <li class="life__toc-section" data-toc-section="4">
+            <a href="#" class="life__toc-heading-link" data-life-index="11">4. 동양 평화를 소망한 안중근</a>
+            <ul class="life__toc-sub">
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="11">뤼순 감옥에 갇혀 재판을 받다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="12">감옥 안에서 글을 남기다</a>
+              </li>
+              <li>
+                <a href="#" class="life__toc-link" data-life-index="13">사형장에서 순국하다</a>
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </aside>
+
+      <!-- 메인 콘텐츠 카드 -->
+      <article class="life__card">
+        <figure class="life__illustration">
+          <img
+            src="../images/life/child_01.png"
+            alt=""
+            class="life__illustration-image"
+            id="lifeIllustration"
+            width="1000"
+            height="520"
+          >
+        </figure>
+
+        <div class="life__content">
+          <p class="life__chapter" id="lifeChapter"></p>
+          <h1 class="life__heading" id="lifeHeading"></h1>
+          <hr class="life__divider">
+          <p class="life__body" id="lifeBody"></p>
+        </div>
+      </article>
+
+      <!-- 이전/다음 버튼 -->
+      <div class="life__nav" aria-label="페이지 이동">
+        <button type="button" class="life__nav-btn" id="prevBtn" aria-label="이전">
+          <img src="../images/life/icon_prev.svg" alt="" width="58" height="58">
+        </button>
+        <button type="button" class="life__nav-btn" id="nextBtn" aria-label="다음">
+          <img src="../images/life/icon_next.svg" alt="" width="58" height="58">
+        </button>
+      </div>
+
+      <!-- 사운드 버튼 -->
+      <button type="button" class="life__sound" id="soundBtn" aria-label="사운드 꺼짐" aria-pressed="false">
+        <img
+          src="../images/life/sound_off.svg"
+          alt=""
+          class="life__sound-icon"
+          data-sound-on="../images/life/sound_on.svg"
+          data-sound-off="../images/life/sound_off.svg"
+          width="58"
+          height="58"
+        >
+      </button>
+
+      <!-- 독립기념관 로고 -->
+      <footer class="life__logo">
+        <img
+          src="../images/intro/logo.svg"
+          alt="독립기념관"
+          class="life__logo-image"
+          width="233"
+          height="39"
+        >
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- 가족사진 팝업 (재사용 모달) -->
+  <div class="modal-overlay" data-modal-overlay="lifePopup" aria-hidden="true"></div>
+  <div class="modal life-popup" data-modal="lifePopup" role="dialog" aria-modal="true" aria-labelledby="lifePopupTitle">
+    <div class="modal__content life-popup__card">
+      <button type="button" class="life-popup__close" data-modal-close aria-label="닫기">&times;</button>
+      <div class="life-popup__image-wrap">
+        <img src="" alt="" class="life-popup__image" id="lifePopupImage" width="600" height="480">
+      </div>
+      <h2 class="life-popup__title" id="lifePopupTitle"></h2>
+      <p class="life-popup__desc" id="lifePopupDesc"></p>
+    </div>
+  </div>
+
+  <!-- 심화학습 팝업 -->
+  <div class="modal-overlay" data-modal-overlay="lifeDeepStudy" aria-hidden="true"></div>
+  <div class="modal life-popup life-popup--deep" data-modal="lifeDeepStudy" role="dialog" aria-modal="true" aria-labelledby="lifeDeepStudyTitle">
+    <div class="modal__content life-popup__card life-popup__card--deep">
+      <button type="button" class="life-popup__close life-popup__close--deep" data-modal-close aria-label="닫기">&times;</button>
+      <div class="life-popup__image-wrap life-popup__image-wrap--deep">
+        <div class="life-popup__image-frame">
+          <img
+            src="../images/life/popup_study_1.png"
+            alt="러일 전쟁 직전의 대한제국 모습 풍자화"
+            class="life-popup__image life-popup__image--deep"
+            id="lifeDeepStudyImage"
+            width="900"
+            height="620"
+          >
+        </div>
+      </div>
+      <div class="life-popup__text-block">
+        <span class="life-popup__badge">심화학습</span>
+        <h2 class="life-popup__title life-popup__title--deep" id="lifeDeepStudyTitle">러일 전쟁 직전의 대한제국 모습 풍자화</h2>
+        <div class="life-popup__desc life-popup__desc--deep" id="lifeDeepStudyDesc">
+          <p>당시 우리나라는 거세지는 주변 나라들의 침략으로 자주독립을 지키기 어려워졌어요.</p>
+          <p>1904년 러시아와 일본 간의 전쟁을 겪은 안중근은 일본의 침략에 대응해야 한다고 생각했어요.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 지도 심화학습 팝업 -->
+  <div class="modal-overlay" data-modal-overlay="lifeMapLearning" aria-hidden="true"></div>
+  <div class="modal life-popup life-popup--deep life-popup--map" data-modal="lifeMapLearning" role="dialog" aria-modal="true" aria-labelledby="lifeMapLearningTitle">
+    <div class="modal__content life-popup__card life-popup__card--deep life-popup__card--map">
+      <button type="button" class="life-popup__close life-popup__close--deep" data-modal-close aria-label="닫기">&times;</button>
+      <div class="map-stage" id="mapStage">
+        <!-- 확대 애니메이션, 위치 핀, 이동 경로, 단계별 설명, Skip 버튼 추가 예정 -->
+        <div class="map-stage__viewport" id="mapStageViewport">
+          <img
+            src="../images/map/world_map.svg"
+            alt="세계 지도"
+            class="map-image map-stage__image"
+            id="mapStageImage"
+            width="1378"
+            height="699"
+          >
+        </div>
+      </div>
+      <div class="life-popup__text-block">
+        <span class="life-popup__badge">심화학습</span>
+        <h2 class="life-popup__title life-popup__title--deep" id="lifeMapLearningTitle">지도로 알아보기</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- 역사 심화학습 팝업 -->
+  <div class="modal-overlay" data-modal-overlay="lifeHistoryLearning" aria-hidden="true"></div>
+  <div class="modal life-popup life-popup--deep life-popup--history" data-modal="lifeHistoryLearning" role="dialog" aria-modal="true" aria-labelledby="lifeHistoryLearningTitle">
+    <div class="modal__content life-popup__card life-popup__card--deep life-popup__card--history">
+      <button type="button" class="life-popup__close life-popup__close--deep" data-modal-close aria-label="닫기">&times;</button>
+      <img
+        src="../images/life/popup_history.png"
+        alt=""
+        class="history-popup__image"
+        id="historyPopupImage"
+        width="1600"
+        height="860"
+      >
+      <div class="history-popup__overlay">
+        <span class="history-popup__badge">심화학습</span>
+        <h2 class="history-popup__title" id="lifeHistoryLearningTitle">역사의 현장속으로</h2>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>
