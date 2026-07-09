@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>안중근 — 로그인</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+  <div class="page-wrapper">
+    <main class="page-container login">
+
+      <!-- 배경 -->
+      <div class="login__bg" aria-hidden="true">
+        <img
+          src="images/login/bg_login.png"
+          alt=""
+          class="login__bg-image"
+          width="1920"
+          height="1080"
+        >
+      </div>
+
+      <!-- 로그인 콘텐츠 -->
+      <section class="login__content" aria-labelledby="login-heading">
+        <header class="login__header">
+          <h1 id="login-heading" class="login__title">
+            <img
+              src="images/login/title.svg"
+              alt="안중근"
+              class="login__title-image"
+              width="568"
+              height="271"
+            >
+          </h1>
+        </header>
+
+        <form class="login__form" id="loginForm" novalidate>
+          <div class="form-field">
+            <label for="serialNumber" class="sr-only">시리얼 번호</label>
+            <input
+              type="text"
+              id="serialNumber"
+              name="serialNumber"
+              class="form-input"
+              placeholder="시리얼 번호(숫자)"
+              inputmode="numeric"
+              autocomplete="off"
+            >
+          </div>
+
+          <div class="form-field">
+            <label for="userName" class="sr-only">이름</label>
+            <input
+              type="text"
+              id="userName"
+              name="userName"
+              class="form-input"
+              placeholder="이름"
+              autocomplete="name"
+            >
+          </div>
+
+          <button type="submit" class="btn btn--login">확인</button>
+        </form>
+
+        <!-- 독립기념관 로고 -->
+        <footer class="login__logo">
+          <img
+            src="images/login/logo.svg"
+            alt="독립기념관"
+            class="login__logo-image"
+            width="663"
+            height="111"
+          >
+        </footer>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
